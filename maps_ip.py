@@ -39,3 +39,18 @@ def object_adress(name):
     return response["response"]["GeoObjectCollection"][
         "featureMember"][0]["GeoObject"]["metaDataProperty"
                                          ]["GeocoderMetaData"]["Address"]["formatted"]
+    
+def get_object_postal_code(name):
+    response = requests.get(GEOKODER_API_SERVER, params={
+        "apikey": "40d1649f-0493-4b70-98ba-98533de7710b",
+        "geocode": name,
+        "format": "json"
+    }).json()
+    if not response:
+        return None
+    try:
+        return response["response"]["GeoObjectCollection"][
+            "featureMember"][0]["GeoObject"]["metaDataProperty"
+                                            ]["GeocoderMetaData"]["Address"]["postal_code"]
+    except Exception:
+        return None
